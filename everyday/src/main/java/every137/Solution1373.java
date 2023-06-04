@@ -1,5 +1,7 @@
 package every137;
 
+import node.TreeNode;
+
 public class Solution1373 {
     /**
      * 判断是否是搜索树,应该是从下往上找
@@ -58,31 +60,5 @@ public class Solution1373 {
         }
         TreeNodeRange range = compute(root);
         return range.sumMax;
-    }
-
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-
-        @Override
-        public String toString() {
-            return "TreeNode{" +
-                    "val=" + val +
-                    '}';
-        }
     }
 }
