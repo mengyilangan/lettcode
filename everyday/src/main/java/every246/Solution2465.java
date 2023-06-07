@@ -23,7 +23,7 @@ import java.util.Set;
  * nums.length 是偶数。
  * 0 <= nums[i] <= 100
  */
-public class Solution2456 {
+public class Solution2465 {
     public int distinctAverages(int[] nums) {
         if (nums.length <= 2) {
             return 1;
