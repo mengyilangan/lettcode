@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * https://leetcode.cn/problems/kth-ancestor-of-a-tree-node/
+ */
 public class TreeAncestor {
     /**
      * 1 <= k <= n <= 5 * 104
