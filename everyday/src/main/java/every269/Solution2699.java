@@ -28,15 +28,18 @@ import java.util.*;
 public class Solution2699 {
     public int[][] modifiedGraphEdges(int n, int[][] edges, int source, int destination, int target) {
         Map<Integer, Map<Integer, Integer>> direction = new HashMap<>();
+        int min = Integer.MAX_VALUE;
         for (int[] edge : edges) {
             Map<Integer, Integer> value = direction.getOrDefault(edge[0], new HashMap<>());
             value.put(edge[1], edge[2]);
             direction.put(edge[0], value);
-
-
+            min = Math.min(min, edge[2]);
             value = direction.getOrDefault(edge[1], new HashMap<>());
             value.put(edge[0], edge[2]);
             direction.put(edge[1], value);
+        }
+        if (min > target) {
+            return new int[][]{};
         }
 
         //是否包含路径
@@ -48,6 +51,7 @@ public class Solution2699 {
         List<Destination> ways = new ArrayList<>();
         Destination init = new Destination(source);
         ways.add(init);
+        boolean value = false;
         do {
             Iterator<Destination> iterator = ways.iterator();
             List<Destination> nextWays = new ArrayList<>();
@@ -81,20 +85,20 @@ public class Solution2699 {
 
                     //如果到目的地了,还需要该长度也不行
                     if (entry.getKey() == destination && positiveSum < target && negative == 0) {
-                        continue;
+                        return new int[][]{};
                     }
 
 
                     nextway.currentCode = entry.getKey();
-                    nextway.nodes.add(destination);
+                    nextway.nodes.add(entry.getKey());
                     nextway.positiveSum = positiveSum;
                     if (entry.getValue() < 0) {
                         nextway.negative.add(new int[]{before, entry.getKey()});
                     }
 
                     if (entry.getKey() == destination) {
-                        filter(nextway, edges);
-                        return edges;
+                        filter(nextway, target, edges);
+                        value = true;
                     }
                     nextWays.add(nextway);
                     nextway = new Destination(way);
@@ -104,18 +108,50 @@ public class Solution2699 {
         } while (!ways.isEmpty() && !direction.get(destination).isEmpty());
 
 
-        return new int[][]{};
+        return value ? edges : new int[][]{};
     }
 
-    private void filter(Destination destination, int[][] edges) {
+    private void filter(Destination destination, int target, int[][] edges) {
+        if (destination.negative.isEmpty()) {
+            for (int[] edge : edges) {
+                if (edge[2] > 0) {
+                    continue;
+                }
+                edge[2] = target;
+            }
+        } else {
+            int negativeSum = target - destination.positiveSum;
+            int avgValue = negativeSum / destination.negative.size();
+            int extra = negativeSum % destination.negative.size() + avgValue;
+            Map<Integer, Set<Integer>> value = new HashMap<>();
+            for (int[] pair : destination.negative) {
+                Set<Integer> sets = value.getOrDefault(pair[0], new HashSet<>());
+                sets.add(pair[1]);
+                value.put(pair[0], sets);
+            }
+
+            for (int[] edge : edges) {
+                if (edge[2] > 0) {
+                    continue;
+                }
+                edge[2] = target;
+                //需要修改位对应的值
+                if (destination.nodes.contains(edge[0]) && destination.nodes.contains(edge[1])) {
+                    edge[2] = extra;
+                    extra = avgValue;
+                }
+            }
+        }
+
 
     }
+
 
     private static class Destination {
         /**
          * 已经存在的节点，不能搞成环
          */
-        private Set<Integer> nodes;
+        private Set<Integer> nodes = new HashSet<>();
         private int positiveSum = 0;
 
         private int currentCode;
@@ -124,6 +160,7 @@ public class Solution2699 {
 
         public Destination(int currentCode) {
             this.currentCode = currentCode;
+            this.nodes.add(currentCode);
         }
 
         public Destination(Destination destination) {
@@ -131,6 +168,16 @@ public class Solution2699 {
             this.nodes = new HashSet<>(destination.nodes);
             this.negative = new ArrayList<>(destination.negative);
             this.positiveSum = destination.positiveSum;
+        }
+
+        @Override
+        public String toString() {
+            return "Destination{" +
+                    "nodes=" + nodes +
+                    ", positiveSum=" + positiveSum +
+                    ", currentCode=" + currentCode +
+                    ", negative=" + negative +
+                    '}';
         }
     }
 }
