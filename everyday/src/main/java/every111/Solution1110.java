@@ -1,6 +1,6 @@
 package every111;
 
-import node.TreeNode;
+import bean.TreeNode;
 
 import java.util.*;
 

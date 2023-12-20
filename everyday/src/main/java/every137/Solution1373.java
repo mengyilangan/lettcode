@@ -1,6 +1,6 @@
 package every137;
 
-import node.TreeNode;
+import bean.TreeNode;
 
 public class Solution1373 {
     /**

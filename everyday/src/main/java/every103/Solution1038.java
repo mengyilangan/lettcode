@@ -1,5 +1,7 @@
 package every103;
 
+import bean.TreeNode;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -27,30 +29,6 @@ import java.util.TreeMap;
  * 输出：[1,null,1]
  */
 public class Solution1038 {
-
-    public TreeNode build(int[] build) {
-        TreeNode root = new TreeNode(build[0]);
-        build(build, root, 0);
-        return root;
-    }
-
-    private void build(int[] build, TreeNode root, int parent) {
-        int left = parent * 2 + 1;
-        int right = left + 1;
-        if (build.length <= left) {
-            return;
-        }
-        if (build[left] != -1) {
-            root.left = new TreeNode(build[left]);
-            build(build, root.left, left);
-        }
-
-        if (build[right] != -1) {
-            root.right = new TreeNode(build[right]);
-            build(build, root.right, right);
-        }
-    }
-
     public TreeNode bstToGst(TreeNode root) {
         if (root.left == null && root.right == null) {
             return root;
