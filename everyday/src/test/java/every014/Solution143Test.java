@@ -1,8 +1,7 @@
 package every014;
 
+import bean.ListNode;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class Solution143Test {
 

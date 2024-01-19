@@ -1,5 +1,7 @@
 package every014;
 
+import bean.ListNode;
+
 /**
  * https://leetcode.cn/problems/reorder-list/?envType=daily-question&envId=2023-11-24
  */
