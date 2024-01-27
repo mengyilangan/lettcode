@@ -29,6 +29,7 @@ public class Solution2861 {
 
 
     /**
+     * 二分法没看懂
      * 只让选择其中的一种
      *
      * @param n           n类金属,composition[i].size=n=stock.size=cost.size
@@ -98,7 +99,7 @@ public class Solution2861 {
             }
         }
 
-        System.out.println("init_res="+min);
+        System.out.println("init_res=" + min);
         int res = min; //先讲min的值减掉
         while (true) {
             //全部都没有内容了,那就只能
