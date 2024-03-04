@@ -21,6 +21,7 @@
         <module>compition</module>
         <module>question</module>
         <module>interview</module>
+        <module>limiting</module>
     </modules>
 
     <dependencies>
