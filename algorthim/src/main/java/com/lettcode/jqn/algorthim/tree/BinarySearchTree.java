@@ -3,27 +3,8 @@ package com.lettcode.jqn.algorthim.tree;
 /**
  * 二叉查找树
  */
-public class BinarySearchTree {
-    private Node root;
-
-    public Node search(int data) {
-        Node targetNode = root;
-        while (targetNode != null && targetNode.data != data) {
-            if (targetNode.data > data) {
-                targetNode = targetNode.left;
-            } else {
-                targetNode = targetNode.right;
-            }
-        }
-
-        if (targetNode == null) {
-            System.out.println("未找到节点:" + data);
-        } else {
-            System.out.println("以找到节点:" + data);
-        }
-        return targetNode;
-    }
-
+public class BinarySearchTree extends AbstractSortTree<Node> {
+    @Override
     public boolean insert(int data) {
         Node node = new Node(data);
         if (root == null) {
@@ -53,44 +34,45 @@ public class BinarySearchTree {
     }
 
     public boolean delete(int data) {
-        //删除了根节点,怎么转换新的根节点
-        if (root.data == data) {
+        OperateRes res = deleteNode(root, data);
+        if (res == null) {
+            return false;
+        } else if (res.currentRes) {
             root = removeNode(root);
-            return true;
-        } else if (root.data < data) {
-            return deleteRight(root, data);
-        } else {
-            return deleteLeft(root, data);
         }
+        return res.finalRes;
 
     }
 
-    private boolean deleteRight(Node parent, int data) {
-        Node current = parent.right;
-        if (current == null) {
-            return false;
-        } else if (current.data == data) {
-            parent.right = removeNode(current);
-            return true;
-        } else if (current.data < data) {
-            return deleteRight(current, data);
-        } else {
-            return deleteLeft(current, data);
-        }
-    }
 
-    private boolean deleteLeft(Node parent, int data) {
-        Node current = parent.left;
-        if (current == null) {
-            return false;
-        } else if (current.data == data) {
-            parent.left = removeNode(current);
-            return true;
-        } else if (current.data < data) {
-            return deleteRight(current, data);
-        } else {
-            return deleteLeft(current, data);
+    public OperateRes deleteNode(Node node, int data) {
+        if (node == null) {
+            return null;
         }
+
+        if (node.data == data) {
+            return OperateRes.currentOperate();
+        }
+
+        OperateRes res;
+        if (node.data > data) {
+            res = deleteNode(node.left, data);
+            if (res != null) {
+                if (res.currentRes) {
+                    node.left = removeNode(node.left);
+                    res.childOperate();
+                }
+            }
+        } else {
+            res = deleteNode(node.right, data);
+            if (res != null) {
+                if (res.currentRes) {
+                    node.right = removeNode(node.right);
+                    res.childOperate();
+                }
+            }
+        }
+        return res;
     }
 
     //从移除节点的子节点找一个新的根节点
@@ -144,26 +126,6 @@ public class BinarySearchTree {
         }
     }
 
-    @Override
-    public String toString() {
-        return toString(root);
-    }
-
-    public String toString(Node root) {
-        StringBuilder builder = new StringBuilder();
-        append(root, builder);
-        return builder.toString();
-    }
-
-
-    public void append(Node node, StringBuilder builder) {
-        if (node == null) {
-            return;
-        }
-        append(node.left, builder);
-        builder.append(node.data).append(",");
-        append(node.right, builder);
-    }
 
     public enum ChildStatus {
         NO,
