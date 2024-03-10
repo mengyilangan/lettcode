@@ -16,12 +16,12 @@
 
     <modules>
         <module>everyday</module>
-        <module>topinterviewquestions</module>
+        <module>top-interview-questions</module>
         <module>lettcode-common</module>
         <module>compition</module>
         <module>question</module>
         <module>interview</module>
-        <module>limiting</module>
+        <module>algorthim</module>
     </modules>
 
     <dependencies>
