@@ -22,6 +22,7 @@
         <module>question</module>
         <module>interview</module>
         <module>algorthim</module>
+        <module>limiting</module>
     </modules>
 
     <dependencies>
